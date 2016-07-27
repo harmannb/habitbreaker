@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Habit Breaker | Users Helpers page</title>
+	<meta charset ="utf-8">
+	<meta name="description" content="Habit breaker will help to break your habits">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/normalize.css">
+	<script type="text/javascript" src="/static/js/script.js"></script>
+	<script type="text/javascript" src="static/js/jquery.min.v3.1.0.js"></script>
+</head>
+<body>
+	<div id="wrapper">
+		<header>
+			<a href='/'><h1>Habit Breaker</h1></a>
+			<a href="/about">About</a>
+			{% if not 'id' in session %}
+				<a href="/signin">Sign In</a>
+				<a href="/signup">Sign Up</a>
+			{%else%}
+				<a href="/users/{{session['id']}}">My page</a>
+				<a href="/logout">Log Out</a>
+			{% endif %}
+		</header>
+		<div class="box">
+			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
+			{% if helpers %}
+				{%for helper in helpers%}
+
+				<h3>{{helper['helper_name']}} hepls with {{violations[0]['habit_name']}}</h3><br>
+				{% for data in violations %}
+					{% if helper['helper_id'] == data['helper_id']%}
+						<table>
+							<thead>
+
+								<th>Vaiolation Date</th>
+								<th>Amount</th>
+								<th>Action</th>
+							</thead>
+							<tbody>
+									<tr>
+										<td>{{data['viol_date'].strftime('%b %d %Y %I:%M %p')}}</td>
+										<td>${{data['amount']}}</td>
+										<td>
+											<a href="/habits/pay_violation/{{data['viol_id']}}">Pay</a>
+											<form action="/habits/pay_violation/{{data['viol_id']}}" method="POST">
+												<input type="hidden" name="email" value="{{data['helper_email']}}"><!-- helper email-->
+												<input type="hidden" name="amount" value="{{data['amount']}}"><!-- amount for violation-->
+												<input type="submit" value="Pay">
+											</form>
+										</td>
+									</tr>
+							</tbody>
+						</table>
+					{% endif %}
+				{% endfor %}
+					<!-- <h3>Total amount - {{sum}}</h3><a href="">Pay all</a> -->
+				{% endfor %}
+			{% endif %}
+			<a href="/habits/show_habit/{{violations[0]['habit_id']}}">Go Back</a>
+			
+		</div>
+		<footer>
+			<p> &copy;RabbitBreakesTeam <a href="/help">Help</a> <a href="/contact">Contact</a></p>
+		</footer>
+	</div>
+</body>
+</html>

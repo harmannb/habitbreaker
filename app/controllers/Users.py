@@ -72,4 +72,8 @@ class Users(Controller):
             flash('Something went wrong while deleting', 'error')
         return redirect('/logout')
 
+    def show_helpers(self,id):
+        helpers = self.models['User'].show_helpers_by_habit_id(id)
+        violations = self.models['Habit'].get_violations_by_habit_id(id)
+        return self.load_view('/users/show_helpers.html', helpers = helpers, violations = violations)
 

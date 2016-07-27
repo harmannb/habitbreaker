@@ -25,10 +25,11 @@
 		</header>
 		<div class="box">
 			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
-			<!-- <a href="/addhabit">Add a Habit</a> -->
 			{% if habit_violations %}
 			
-			<h3>Habit Details - "{{habit_violations[0]['habit_name']}}", created at - "{{habit_violations[0]['habit_date'].strftime('%b %d %Y %I:%M %p')}}", total amount - ${{sum}}</h3><br>
+			<h3>Habit Details - "{{habit_violations[0]['habit_name']}}", created at - "{{habit_violations[0]['habit_date'].strftime('%b %d %Y %I:%M %p')}}", total amount - ${{sum}}</h3>
+			<a href="/users/helpers/{{session['id']}}">List of my Helpers</a>
+			<br>
 				
 			<table>
 				<thead>
@@ -61,11 +62,7 @@
 				
 			{% endif %}
 			<a href="/users/{{session['id']}}">Go Back</a>
-			<!-- <a href="#">List ot your Helpers</a> -->
-				
-			<!-- <a href="#">Help a Friend to Break the Habit</a> -->
-			<!-- <a href="#">Submit Violation</a>
-			<a href="/users/account/{{session['id']}}">Account info</a> -->
+			
 		</div>
 		<footer>
 			<p> &copy;RabbitBreakesTeam <a href="/help">Help</a> <a href="/contact">Contact</a></p>

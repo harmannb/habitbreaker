@@ -4,6 +4,7 @@
 """
 from system.core.controller import *
 import datetime
+
 class Habits(Controller):
     def __init__(self, action):
         super(Habits, self).__init__(action)
@@ -26,6 +27,21 @@ class Habits(Controller):
             sum_am += i['amount']
 
         return self.load_view('/habits/show_habit.html', habit_violations = habit_violations, sum = sum_am)
+
+    def add_habit(self):
+        return self.load_view('/habits/add_habit.html')
+
+    def add_new_habit(self):
+        validate = self.models['Habit'].add_new_habit(request.form)
+        if validate['status'] == True:
+            for message in validate['errors']:
+                flash(message, 'valid')
+            return redirect('/users/'+str(session['id']))
+        else:
+            for message in validate['errors']:
+                flash(message, 'errors')
+            return redirect('/habits/add_new_habit')
+
 
     """
     def new(self):

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Habit Breaker | User page</title>
+	<title>Habit Breaker | Add Habit page</title>
 	<meta charset ="utf-8">
 	<meta name="description" content="Habit breaker will help to break your habits">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
@@ -25,22 +25,31 @@
 		</header>
 		<div class="box">
 			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
-			<a href="/habits/add_habit">Add New Habit</a>
-			<h3>Your Habits:</h3><hr>
-			{% if habits %}
-				{% for habit in habits %}
-					<h3><a href="/habits/show_habit/{{habit['id']}}">{{habit['habit_name']}}</a></h3>
-					<span>Amount: ${{habit['amount']}}</span>
-					<a href="/habits/ask_for_help/{{habit['id']}}">Ask for help with {{habit['habit_name']}}</a>
-					<hr>
-				{% endfor %}
-			{% endif %}
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					{% for category, message in messages %}
+						
+						<span class="{{category}}">{{ message }}</span>
+						
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+			<form action="/habits/new_habit" method="POST">
+				<label for="habit_name">Name: 
+					<input type="text" name="habit_name" id="habit_name" placeholder="Name your habit">
+				</label>
+				<label for="amount">Price:
+					<input type="text" name="amount" id="amount" placeholder="10.00">
+				</label>
+				<!-- <label for="description"><span>Description: </span>
+					<textarea name="description" id="description" placeholder="Description goes here"></textarea>
+				</label> -->
+				<input type="hidden" name="id" value="{{ session['id'] }}">
+				<input type="submit" value="Add a Habit">
+			</form>
 			
-			<!-- <a href="#">List of my Helpers</a> -->
-				
-			<a href="#">Help a Friend to Break the Habit</a>
-			<a href="#">Submit Violation</a>
-			<a href="/users/account/{{session['id']}}">Account info</a>
+			<a href="/users/{{session['id']}}">Go Back</a>
+			
 		</div>
 		<footer>
 			<p> &copy;RabbitBreakesTeam <a href="/help">Help</a> <a href="/contact">Contact</a></p>

@@ -32,11 +32,36 @@ class Habit(Model):
         return self.db.query_db(query_viol, data_viol)
 
     def get_violations_by_habit_id(self, id):
-        query_viol = "SELECT violations.created_at as viol_date, violations.id as viol_id, concat(users.first_name, ' ', users.last_name) as helper_name, users.email as helper_email, habits.amount as amount, habits.habit_name as habit_name, habits.created_at as habit_date, habits.id as habit_id  FROM violations  LEFT JOIN users ON users.id = violations.helper_id LEFT JOIN habits ON habits.id = violations.habit_id WHERE habit_id = :id;"
+        query_viol = "SELECT violations.created_at as viol_date, violations.id as viol_id, concat(users.first_name, ' ', users.last_name) as helper_name, violations.helper_id, users.email as helper_email, habits.amount as amount, habits.habit_name as habit_name, habits.created_at as habit_date, habits.id as habit_id  FROM violations  LEFT JOIN users ON users.id = violations.helper_id LEFT JOIN habits ON habits.id = violations.habit_id WHERE habit_id = :id;"
         data_viol = {
             'id':id
         }
         return self.db.query_db(query_viol, data_viol)
+
+    def add_new_habit(self, data):
+        errors=[]
+        if not data['habit_name']:
+            errors.append('Name of your habit cannot be empty!')
+        elif len(data['habit_name'])>255:
+            errors.append('Name of the product cannot be longer than 255 characters!')
+        
+        if not data['amount']:
+            errors.append('A new habit should have an amount!')
+        if not is_number(data['amount']):
+            errors.append('Amount should be a number!')
+
+        if errors:
+            return {'status': False, 'errors': errors}
+        else:
+            query_new_habit = "INSERT INTO habits (habit_name, amount, holder_id, created_at, updated_at) VALUES (:habit_name, :amount, :holder_id, NOW(), NOW())"
+            data_new_habit = {
+                'habit_name': data['habit_name'],
+                'amount': data['amount'],
+                'holder_id': data['id']
+            }
+            self.db.query_db(query_new_habit, data_new_habit)
+            errors.append('You have successfully added a product!')
+            return {'status': True, 'errors': errors}
     """
     def create_product(self, data):
             errors=[]

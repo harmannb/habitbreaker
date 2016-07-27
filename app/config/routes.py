@@ -20,6 +20,9 @@ routes['POST']['/users/update/<int:id>'] = 'Users#update'# validates info and up
 #routes['/users/password'] = 'Users#password' # loads the password.html
 routes['POST']['/users/password_change'] = 'Users#password_change' # validates the password and make changes in database
 routes['GET']['/users/delete_user/<int:id>'] = 'Users#delete_user' # deletes user from database
+routes['/users/helpers/<int:id>'] = 'Users#show_helpers' # loads list of helpers by user id
 
 # Habits and Violations routes
-routes['/habits/show_habit/<int:id>'] = 'Habits#show_habit'
+routes['/habits/show_habit/<int:id>'] = 'Habits#show_habit' # loads show_habit.html with a sfecific habit id
+routes['/habits/add_habit'] = 'Habits#add_habit' # loads add_habit.html
+routes['POST']['/habits/new_habit'] = 'Habits#add_new_habit' # validates fields and adds new habit to user
