@@ -63,36 +63,35 @@ class User(Model):
             self.db.query_db(query_cur_user, data_cur_user)
             errors.append('You have successfully updated your account info!')
             return {'status': True, 'errors': errors}
-        
+    
+    def update_password(self, data):
+        errors = []
+        # validate annd update password
+        if not data['password']:
+            errors.append('Password cannot be empty!')
+        elif len(data['password'])<8:
+            errors.append('Password must be at least 8 characters long!')
+        elif data['password'] != data['conf_password']:
+            errors.append('Password and confirmation must match!')
 
-    def update_product(self, data):
-        errors=[]
-        if not data['name']:
-            errors.append('Name of a new product cannot be empty!')
-        elif len(data['name'])>255:
-            errors.append('Name of the product cannot be longer than 255 characters!')
-        if not data['description']:
-            errors.append('Description of a new product cannot be empty!')
-        elif len(data['description'])>255:
-            errors.append('Description of the product cannot be longer than 255 characters!')
-        if not data['price']:
-            errors.append('A new product should have a price!')
-        if not is_number(data['price']):
-            errors.append('Price should be a number!')
-        if not data['description']:
-            errors.append('Please give some description!')
-        if len(data['description'])>255:
-            errors.append('Please make sure the product description is less than 255 characters!')
         if errors:
             return {'status': False, 'errors': errors}
         else:
-            query_cur_product = "UPDATE products SET name = :name, price = :price, description = :description, updated_at = NOW() WHERE id = :id"
-            data_cur_product = {
-                'name': data['name'],
-                'price': data['price'],
-                'description': data['description'],
+            hashed_pass = self.bcrypt.generate_password_hash(data['password'])
+            # query_cur_product = "UPDATE products SET name = :name, price = :price, description = :description, updated_at = NOW() WHERE id = :id"
+            query_user = "UPDATE users SET password = :hashed_pass, updated_at = NOW() WHERE id = :id"
+            data_user = {
+                'hashed_pass': hashed_pass,
                 'id': data['id']
             }
-            self.db.query_db(query_cur_product, data_cur_product)
-            errors.append('You have successfully updated a product!')
+            self.db.query_db(query_user, data_user)
+            errors.append('You have successfully updated your password!')
             return {'status': True, 'errors': errors}
+    
+    def delete_user(self,id):
+        query_delete = "DELETE FROM users WHERE id = :id"
+        data_delete = {
+            'id': id
+        }
+        self.db.query_db(query_delete, data_delete)
+        return True

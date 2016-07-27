@@ -17,8 +17,9 @@ routes['/users/account/<int:id>'] = 'Users#show_account' # loads account.thml wi
 routes['/users/edit/<int:id>'] = 'Users#edit' # loads the edit_user.html with a form to update
 routes['POST']['/users/update/<int:id>'] = 'Users#update'# validates info and updates database. if success - redirects to '/users/account'
 # redundent route
-routes['/users/password'] = 'Users#password' # loads the password.html
+#routes['/users/password'] = 'Users#password' # loads the password.html
 routes['POST']['/users/password_change'] = 'Users#password_change' # validates the password and make changes in database
+routes['GET']['/users/delete_user/<int:id>'] = 'Users#delete_user' # deletes user from database
 
 # Habits and Violations routes
-
+routes['/habits/show_habit/<int:id>'] = 'Habits#show_habit'

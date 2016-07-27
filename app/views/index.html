@@ -30,52 +30,6 @@
 				Aenean convallis tortor purus, at commodo nisl porttitor quis. Nulla eleifend hendrerit lacus at ullamcorper. Mauris a malesuada odio. Cras pretium dui eu enim laoreet, ac fermentum ante convallis. Phasellus sit amet luctus diam. Pellentesque semper, nibh quis tincidunt laoreet, felis orci tincidunt dui, sed dapibus risus nisi at sapien. Maecenas gravida sem turpis, eget pharetra magna fringilla in. Nam sed convallis sapien. In ultrices tellus eu scelerisque bibendum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin quis gravida lorem. Pellentesque non semper metus, et ultricies eros. Proin tincidunt ullamcorper quam quis imperdiet. Vestibulum massa ante, tempor id rutrum vel, volutpat eu leo.
 			</p>
 		</div>
-		<!-- <div class="box">
-			<h2>Quoteble Quotes:</h2>
-				{% if quotes%}
-					{% for quote in quotes %}
-					<p><span class='valid'>{{quote['author']}}: </span> 
-						{{quote['quote']}}
-					</p>
-					<p>Posted by: <a href="/users/{{quote['user_id_who_wrote']}}" >{{quote['alias']}}</a></p>
-					<a href="/add_fav/{{quote['quote_id']}}">Add to my list</a>
-					{% endfor %}
-				{% endif %}
-		</div>
-		<div class = "box">
-			<h3>Your favorites:</h3>
-			{% if favorites%}
-				{% for favorite in favorites %}
-					<p><span class='valid'>{{favorite['author']}}: </span>
-						{{favorite['quote']}}
-					</p>
-					<p>Posted by: <a href="/users/{{favorite['user_id_who_wrote']}}" >{{favorite['alias']}}</a></p>
-					<a href="/remove/{{favorite['quote_id']}}">Remove from my list</a>
-				{% endfor %}
-			{%  endif%}
-		</div>
-		<div class="box">
-			<h2>Contribute a Quote</h2>
-			{% with messages = get_flashed_messages(with_categories=true) %}
-				{% if messages %}
-					{% for category, message in messages %}
-						
-						<span class="{{category}}">{{ message }}</span>
-						
-					{% endfor %}
-				{% endif %}
-			{% endwith %}
-			<form action="/quotes/add" method="POST">
-				<label for="author">Quoted by: 
-					<input type="text" name="author" id="author" placeholder="Author">
-				</label>
-				<label for="quote"><span>Description: </span>
-					<textarea name="quote" id="quote" placeholder="Quote goes here"></textarea>
-				</label>
-				<input type="submit" value="Add">
-			</form>
-		</div> -->
-
 		<footer>
 			<p> &copy;RabbitBreakesTeam <a href="/help">Help</a> <a href="/contact">Contact</a></p>
 		</footer>

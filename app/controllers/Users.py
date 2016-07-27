@@ -48,3 +48,28 @@ class Users(Controller):
     def password(self):
         return self.load_view('/users/password.html')
 
+    def password_change(self):
+        # model function - def update_password(self):
+        print 'updated password =)'
+        validate = self.models['User'].update_password(request.form)
+        print validate
+        if validate['status'] == True:
+            for message in validate['errors']:
+                flash(message, 'valid')
+            return redirect('/users/account/'+str(session['id']))
+        else:
+            for message in validate['errors']:
+                flash(message, 'error')
+            return redirect('/users/password')
+        
+
+    def delete_user(self, id):
+        print 'deleted =)'
+        deleted = self.models['User'].delete_user(id) 
+        if deleted:
+            flash('The user was deleted successfully!', 'valid')
+        else:
+            flash('Something went wrong while deleting', 'error')
+        return redirect('/logout')
+
+

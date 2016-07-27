@@ -17,6 +17,26 @@ class Habit(Model):
         }
         return self.db.query_db(query_habits, data_user)
     
+    def show_habit_by_id(self, id):
+        query_habit = "SELECT * FROM habits WHERE id = :id;"
+        data_habit = {
+            'id': id
+        }
+        return self.db.query_db(query_habit, data_habit)
+
+    def show_viol_by_habitid(self, id):
+        query_viol = "SELECT * FROM violations WHERE habit_id = :id;"
+        data_viol = {
+            'id': id
+        }
+        return self.db.query_db(query_viol, data_viol)
+
+    def get_violations_by_habit_id(self, id):
+        query_viol = "SELECT violations.created_at as viol_date, violations.id as viol_id, concat(users.first_name, ' ', users.last_name) as helper_name, users.email as helper_email, habits.amount as amount, habits.habit_name as habit_name, habits.created_at as habit_date, habits.id as habit_id  FROM violations  LEFT JOIN users ON users.id = violations.helper_id LEFT JOIN habits ON habits.id = violations.habit_id WHERE habit_id = :id;"
+        data_viol = {
+            'id':id
+        }
+        return self.db.query_db(query_viol, data_viol)
     """
     def create_product(self, data):
             errors=[]
@@ -47,7 +67,7 @@ class Habit(Model):
                 self.db.query_db(query_new_product, data_new_product)
                 errors.append('You have successfully added a product!')
                 return {'status': True, 'errors': errors}
-                
+
     def update_product(self, data):
             errors=[]
             if not data['name']:

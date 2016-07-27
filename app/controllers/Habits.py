@@ -3,7 +3,7 @@
     Habit Breaker - Habits Controller
 """
 from system.core.controller import *
-from flask import flash
+import datetime
 class Habits(Controller):
     def __init__(self, action):
         super(Habits, self).__init__(action)
@@ -16,6 +16,16 @@ class Habits(Controller):
     def index(self):
         print "redirected"
         return redirect('/')
+
+    def show_habit(self,id):
+        habit = self.models['Habit'].show_habit_by_id(id)
+        violation = self.models['Habit'].show_viol_by_habitid(id)
+        habit_violations = self.models['Habit'].get_violations_by_habit_id(id)
+        sum_am = 0
+        for i in habit_violations:
+            sum_am += i['amount']
+
+        return self.load_view('/habits/show_habit.html', habit_violations = habit_violations, sum = sum_am)
 
     """
     def new(self):
