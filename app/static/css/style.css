@@ -1,0 +1,92 @@
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: monaco;
+}
+body{
+	background-color: #7f7f81;
+}
+p{
+	line-height: 2em;
+	padding: 10px;
+	text-align: justify;
+}
+#wrapper{
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+    background-color: #7f7f81;
+}
+.box{
+	/*height: 370px;*/
+	border: 2px solid #000000;
+	margin: 20px;
+    background-color: #dbdbdb;
+    /*overflow: scroll;*/
+    padding: 20px;
+} 
+
+a{
+	padding: 5px 10px;
+	margin: 15px auto;
+	border-radius: 5px;
+	border: 1px solid darkgrey;
+	display: inline-block;
+	text-decoration: none;
+	box-shadow: 1px 1px 1px #888888;
+	background-color: #c0c0c0 !important;
+}
+	a:visited, a:active, a{
+		color: #000000;
+	}
+	
+input[type='submit']{
+	padding: 5px 10px;
+	margin: 15px auto;
+	border-radius: 5px;
+	display: block;
+	box-shadow: 1px 1px 1px #888888;
+}
+label{
+	margin: 10px auto;
+	display: block;
+}
+select{
+	border: none;
+	background-color: #fff;
+}
+input[type='text'], input[type='password']{
+	margin-left: 5px;
+	padding: 5px 10px;
+	border-radius: 4px;
+	border: none;
+}
+textarea{
+	padding: 10px;
+	width: 400px;
+    height: 100px;
+}
+.error{
+	color: red;
+}
+.valid{
+	color: green;
+}
+span{
+	display: block;
+	margin: 5px;
+}
+.comment{
+	border: 1px solid green;
+	margin: 20px 20px 20px 100px;
+}
+.post{
+	border: 1px solid red;
+	margin: 20px;
+}
+.author{
+	text-align: left;
+}
+footer p{
+	text-align: center;
+}

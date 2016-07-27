@@ -1,46 +1,24 @@
 """
     Routes Configuration File
-
-    Put Routing rules here
+    Habit Breaker
 """
 from system.core.router import routes
+# Mains routes
+routes['default_controller'] = 'Mains' #loads index.html - '/'
+routes['/signin'] = 'Mains#signin' # loads signin.html
+routes['/signup'] = 'Mains#signup' # loads signup page
+routes['POST']['/login'] = 'Mains#login' # validates and if success redirect '/users/<int:id>', if not - rdirect to '/signin'
+routes['POST']['/register'] = 'Mains#register'
+routes['/logout'] = 'Mains#logout' # clears session and redirect to '/'
 
-"""
-    This is where you define routes
-    
-    Start by defining the default controller
-    Pylot will look for the index method in the default controller to handle the base route
+# Users routes
+routes['/users/<int:id>'] = 'Users#show_user' # loads show_user.html with user's data
+routes['/users/account/<int:id>'] = 'Users#show_account' # loads account.thml with user's account information
+routes['/users/edit/<int:id>'] = 'Users#edit' # loads the edit_user.html with a form to update
+routes['POST']['/users/update/<int:id>'] = 'Users#update'# validates info and updates database. if success - redirects to '/users/account'
+# redundent route
+routes['/users/password'] = 'Users#password' # loads the password.html
+routes['POST']['/users/password_change'] = 'Users#password_change' # validates the password and make changes in database
 
-    Pylot will also automatically generate routes that resemble: '/controller/method/parameters'
-    For example if you had a products controller with an add method that took one parameter 
-    named id the automatically generated url would be '/products/add/<id>'
-    The automatically generated routes respond to all of the http verbs (GET, POST, PUT, PATCH, DELETE)
-"""
-routes['default_controller'] = 'Welcome'
-"""
-    You can add routes and specify their handlers as follows:
+# Habits and Violations routes
 
-    routes['VERB']['/URL/GOES/HERE'] = 'Controller#method'
-
-    Note the '#' symbol to specify the controller method to use.
-    Note the preceding slash in the url.
-    Note that the http verb must be specified in ALL CAPS.
-    
-    If the http verb is not provided pylot will assume that you want the 'GET' verb.
-
-    You can also use route parameters by using the angled brackets like so:
-    routes['PUT']['/users/<int:id>'] = 'users#update'
-
-    Note that the parameter can have a specified type (int, string, float, path). 
-    If the type is not specified it will default to string
-
-    Here is an example of the restful routes for users:
-
-    routes['GET']['/users'] = 'users#index'
-    routes['GET']['/users/new'] = 'users#new'
-    routes['POST']['/users'] = 'users#create'
-    routes['GET']['/users/<int:id>'] = 'users#show'
-    routes['GET']['/users/<int:id>/edit' = 'users#edit'
-    routes['PATCH']['/users/<int:id>'] = 'users#update'
-    routes['DELETE']['/users/<int:id>'] = 'users#destroy'
-"""

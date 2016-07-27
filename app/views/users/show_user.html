@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Habit Breaker | User page</title>
+	<meta charset ="utf-8">
+	<meta name="description" content="Habit breaker will help to break your habits">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/normalize.css">
+	<script type="text/javascript" src="/static/js/script.js"></script>
+	<script type="text/javascript" src="static/js/jquery.min.v3.1.0.js"></script>
+</head>
+<body>
+	<div id="wrapper">
+		<header>
+			<a href='/'><h1>Habit Breaker</h1></a>
+			<a href="/about">About</a>
+			{% if not 'id' in session %}
+				<a href="/signin">Sign In</a>
+				<a href="/signup">Sign Up</a>
+			{%else%}
+				<a href="/users/{{session['id']}}">My page</a>
+				<a href="/logout">Log Out</a>
+			{% endif %}
+		</header>
+		<div class="box">
+			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
+			<a href="/addhabit">Add a Habit</a>
+			<h3>Your Habits:</h3>
+			{% if habits %}
+				{% for habit in habits %}
+					<h3><a href="/habits/show_habit/{{habit['id']}}">{{habit['habit_name']}}</a></h3>
+					<span>Amount: ${{habit['amount']}}</span>
+				{% endfor %}
+			{% endif %}
+			
+			<a href="#">List ot your Helpers</a>
+				
+			<a href="#">Help a Friend to Break the Habit</a>
+			<a href="#">Submit Violation</a>
+			<a href="/users/account/{{session['id']}}">Account info</a>
+		</div>
+		<footer>
+			<p> &copy;RabbitBreakesTeam <a href="/help">Help</a> <a href="/contact">Contact</a></p>
+		</footer>
+	</div>
+</body>
+</html>

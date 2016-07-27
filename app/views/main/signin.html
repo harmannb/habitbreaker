@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Habit Breaker | Sign In</title>
+	<meta charset ="utf-8">
+	<meta name="description" content="Sign In to Habit breaker to break your habits">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/normalize.css">
+	<script type="text/javascript" src="/static/js/script.js"></script>
+	<script type="text/javascript" src="static/js/jquery.min.v3.1.0.js"></script>
+</head>
+<body>
+	<div id="wrapper">
+		<header>
+			<a href='/'><h1>Habit Breaker</h1></a>
+			
+			<a href="/about">About</a>
+			{% if not 'id' in session %}
+				<a href="/signin">Sign In</a>
+				<a href="/signup">Sign Up</a>
+			{%else%}
+				<a href="/users/{{session['id']}}">My page</a>
+				<a href="/logout">Log Out</a>
+			{% endif %}
+		</header>
+		<div class="box">
+			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
+			<h2>Log In</h2>
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					{% for category, message in messages %}
+						{% if 'log' in category %}
+							<span class="{{category}}">{{ message }}</span>
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+			
+			<form action="/login" method="POST">
+				<label for = "email_log">
+					Email: <input type="text" id="email_log" name="email" placeholder="Email" value="">
+				</label>
+				<label for="password_log">
+					Password: <input type="password" id="password_log" name="password" placeholder="Password">
+				</label>
+				<input type="submit" value="Log In" name="submit">
+				<!-- <input type="submit" value="Clear the form" name="submit"> -->
+			</form>
+		</div>
+
+		<footer>
+			<p> &copy;RabbitBreakesTeam <a href="/help">Help</a> <a href="/contact">Contact</a></p>
+		</footer>
+	</div>
+</body>
+</html>

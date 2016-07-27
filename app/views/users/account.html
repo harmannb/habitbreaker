@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Habit Breaker | User account info</title>
+	<meta charset ="utf-8">
+	<meta name="description" content="Habit breaker will help to break your habits">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/normalize.css">
+	<script type="text/javascript" src="/static/js/script.js"></script>
+	<script type="text/javascript" src="static/js/jquery.min.v3.1.0.js"></script>
+</head>
+<body>
+	<div id="wrapper">
+		<header>
+			<a href='/'><h1>Habit Breaker</h1></a>
+			
+			<a href="/about">About</a>
+			{% if not 'id' in session %}
+				<a href="/signin">Sign In</a>
+				<a href="/signup">Sign Up</a>
+			{%else%}
+				<a href="/users/{{session['id']}}">My page</a>
+				<a href="/logout">Log Out</a>
+			{% endif %}
+		</header>
+		<div class="box">
+			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
+			<hr><br>
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					{% for category, message in messages %}
+						<span class="{{category}}">{{ message }}</span>
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+			<h3>My account info:</h3>
+			<p>First Name: {{ user['first_name'] }}</p>
+			<p>Last Name: {{ user['last_name'] }}</p>
+			<p>Email: {{ user['email'] }}</p>
+			<!-- <p>Phone number: {{ user['phone_number'] }}</p> -->
+			<hr>
+			<a href="/users/edit/{{session['id']}}">Edit account info</a>
+			<a href="/users/password">Change password</a>
+			<a href="/users/delete/{{session['id']}}">Delete Account</a>
+			<hr>
+		</div>
+		<footer>
+			<p> &copy;RabbitBreakesTeam <a href="/help">Help</a> <a href="/contact">Contact</a></p>
+		</footer>
+	</div>
+</body>
+</html>
