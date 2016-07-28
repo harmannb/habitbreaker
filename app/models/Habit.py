@@ -17,6 +17,13 @@ class Habit(Model):
         }
         return self.db.query_db(query_habits, data_user)
     
+    def get_habits_by_helper_id(self, id):
+        query_fr_habits = "SELECT habits.id, habits.habit_name, habits.holder_id, habits.amount, users.first_name FROM habits LEFT JOIN users ON users.id = habits.holder_id LEFT JOIN helpers ON habits.id = helpers.habit_id WHERE helpers.helper_id = :myid"
+        data_fr_user = {
+            'myid' : id
+        }
+        return self.db.query_db(query_fr_habits, data_fr_user)
+
     def show_habit_by_id(self, id):
         query_habit = "SELECT * FROM habits WHERE id = :id;"
         data_habit = {
@@ -31,6 +38,16 @@ class Habit(Model):
         }
         return self.db.query_db(query_viol, data_viol)
 
+    def delete_habit(self,id):
+        #check viol before deleting
+        
+        query = "DELETE FROM habits WHERE id = :id"
+        data = {
+            'id': id
+        }
+        self.db.query_db(query, data)
+        return True
+        
     def get_violations_by_habit_id(self, id):
         query_viol = "SELECT violations.created_at as viol_date, violations.id as viol_id, concat(users.first_name, ' ', users.last_name) as helper_name, violations.helper_id, users.email as helper_email, habits.amount as amount, habits.habit_name as habit_name, habits.created_at as habit_date, habits.id as habit_id  FROM violations  LEFT JOIN users ON users.id = violations.helper_id LEFT JOIN habits ON habits.id = violations.habit_id WHERE habit_id = :id;"
         data_viol = {
@@ -43,7 +60,7 @@ class Habit(Model):
         if not data['habit_name']:
             errors.append('Name of your habit cannot be empty!')
         elif len(data['habit_name'])>255:
-            errors.append('Name of the product cannot be longer than 255 characters!')
+            errors.append('Name of your habit cannot be longer than 255 characters!')
         
         if not data['amount']:
             errors.append('A new habit should have an amount!')
@@ -60,7 +77,7 @@ class Habit(Model):
                 'holder_id': data['id']
             }
             self.db.query_db(query_new_habit, data_new_habit)
-            errors.append('You have successfully added a product!')
+            errors.append('You have successfully added a new habit!')
             return {'status': True, 'errors': errors}
     """
     def create_product(self, data):

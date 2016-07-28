@@ -21,8 +21,10 @@ class Users(Controller):
     def show_user(self, id):
         user = self.models['User'].get_user_by_id(id)
         habit = self.models['Habit'].get_habits_by_user_id(id)
+        friend_habits = self.models['Habit'].get_habits_by_helper_id(id)
         # we will pass user variable with user ifno, habits with all habits, violation per habit, list of helpers per habit
-        return self.load_view('/users/show_user.html', user = user[0], habits = habit )
+        # we are using habits variable so far
+        return self.load_view('/users/show_user.html', user = user[0], habits = habit, friend_habits = friend_habits )
 
     def show_account(self,id):
         user = self.models['User'].get_user_by_id(id)
@@ -39,6 +41,7 @@ class Users(Controller):
         if validate['status'] == True:
             for message in validate['errors']:
                 flash(message, 'valid')
+            session['first_name'] = validate['user']['first_name']
             return redirect('/users/account/'+str(id))
         else:
             for message in validate['errors']:
@@ -76,4 +79,19 @@ class Users(Controller):
         helpers = self.models['User'].show_helpers_by_habit_id(id)
         violations = self.models['Habit'].get_violations_by_habit_id(id)
         return self.load_view('/users/show_helpers.html', helpers = helpers, violations = violations)
-
+        #signup
+    def facebook_success(self, first_name, last_name, email):
+        users = {
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email
+        }
+        validate = self.models['User'].add_user_fb(users)
+        if validate['status'] == True:
+            session['id'] = validate['user']['id']
+            session['first_name'] = validate['user']['first_name']
+            return redirect('/users/'+str(session['id']))
+        else: # will never go to else
+            for message in validate['errors']:
+                flash(message, 'error reg')
+            return redirect('/signup')

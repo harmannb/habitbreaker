@@ -21,6 +21,7 @@
 				<a href="/signup">Sign Up</a>
 			{%else%}
 				<a href="/users/{{session['id']}}">My page</a>
+				<a href="/users/account/{{session['id']}}">Account info</a>
 				<a href="/logout">Log Out</a>
 			{% endif %}
 		</header>
@@ -36,21 +37,63 @@
 					{% endfor %}
 				{% endif %}
 			{% endwith %}
-			<h3>Your Habits:</h3><hr>
+			<hr><hr><br>
+			<h3>Your Habits:</h3><br>
 			{% if habits %}
-				{% for habit in habits %}
-					<h3><a href="/habits/show_habit/{{habit['id']}}">{{habit['habit_name']}}</a></h3>
-					<span>Amount: ${{habit['amount']}}</span>
-					<a href="/habits/ask_for_help/{{habit['id']}}">Ask for help with {{habit['habit_name']}}</a>
-					<hr>
-				{% endfor %}
-			{% endif %}
-			
-			<!-- <a href="#">List of my Helpers</a> -->
 				
-			<a href="#">Help a Friend to Break the Habit</a>
-			<a href="#">Submit Violation</a>
-			<a href="/users/account/{{session['id']}}">Account info</a>
+
+				<table>
+				<thead>
+					<!-- <th><h3>View</h3></th> -->
+					<th><h3>Habit Name</h3></th>
+					<th><h3>Amout per violation</h3></th>
+					<th><h3>Action</h3></th>
+				</thead>
+
+				<tbody>
+					{% for habit in habits %}
+						<tr>
+							<!-- <td>Display data</td> -->
+							<td><a href="/habits/show_habit/{{habit['id']}}">{{habit['habit_name']}}</a></td>
+							<td>${{habit['amount']}}</td>
+							<td>
+								<a href="/habits/ask_for_help/{{habit['id']}}">Ask for help with {{habit['habit_name']}}</a>
+								<a href="/habits/delete/{{habit['id']}}">Delete {{habit['habit_name']}}</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+			<br>
+			<hr><hr><br>
+			<h3>Your Friends Habits:</h3>
+			{% if friend_habits %}
+				
+
+				<table>
+				<thead>
+					<!-- <th><h3>View</h3></th> -->
+					<th><h3>Habit Name</h3></th>
+					<th><h3>Friend Name</h3></th>
+					<th><h3>Amout per violation</h3></th>
+					<th><h3>Action</h3></th>
+				</thead>
+
+				<tbody>
+					{% for habit in friend_habits %}
+						<tr>
+							<!-- <td>Display data</td> -->
+							<td><a href="/habits/show_hab	it/{{habit['id']}}">{{habit['habit_name']}}</a></td>
+							<td>{{habit['first_name']}}</td>
+							<td>${{habit['amount']}}</td>
+							<td><a href="/habits/submit/{{habit['id']}}/{{session['id']}}">Submit violation</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+
 		</div>
 		<footer>
 			<p> &copy;RabbitBreakesTeam <a href="/help">Help</a> <a href="/contact">Contact</a></p>

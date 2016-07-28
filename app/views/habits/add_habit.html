@@ -21,6 +21,7 @@
 				<a href="/signup">Sign Up</a>
 			{%else%}
 				<a href="/users/{{session['id']}}">My page</a>
+				<a href="/users/account/{{session['id']}}">Account info</a>
 				<a href="/logout">Log Out</a>
 			{% endif %}
 		</header>
@@ -36,7 +37,7 @@
 				{% endif %}
 			{% endwith %}
 			<form action="/habits/new_habit" method="POST">
-				<label for="habit_name">Name: 
+				<label for="habit_name">Habit Name: 
 					<input type="text" name="habit_name" id="habit_name" placeholder="Name your habit">
 				</label>
 				<label for="amount">Price:

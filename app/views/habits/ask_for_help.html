@@ -21,6 +21,7 @@
 				<a href="/signup">Sign Up</a>
 			{%else%}
 				<a href="/users/{{session['id']}}">My page</a>
+				<a href="/users/account/{{session['id']}}">Account info</a>
 				<a href="/logout">Log Out</a>
 			{% endif %}
 		</header>
@@ -47,6 +48,7 @@
 				</label> -->
 				<input type="hidden" id="first_name" name="first_name" value="{{ session['first_name'] }}">
 				<input type="hidden" id="id" name="id" value="{{ session['id'] }}">
+				<input type="hidden" id="habit_id" name="habit_id" value="{{habit_id}}">
 				<input type="submit" value="Send Text Message" id="submit">
 			</form>
 			

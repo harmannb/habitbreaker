@@ -21,11 +21,12 @@
 				<a href="/signup">Sign Up</a>
 			{%else%}
 				<a href="/users/{{session['id']}}">My page</a>
+				<a href="/users/account/{{session['id']}}">Account info</a>
 				<a href="/logout">Log Out</a>
 			{% endif %}
 		</header>
 		<div class="box">
-			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
+			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2><h3>Helpers:</h3>
 			{% if helpers %}
 				{%for helper in helpers%}
 

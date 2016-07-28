@@ -62,7 +62,12 @@ class User(Model):
             }
             self.db.query_db(query_cur_user, data_cur_user)
             errors.append('You have successfully updated your account info!')
-            return {'status': True, 'errors': errors}
+            query_email = "SELECT * FROM users WHERE email = :user_email LIMIT 1"
+            data_email = {
+                'user_email': data['email']
+            }
+            user = self.db.query_db(query_email, data_email)
+            return {'status': True, 'errors': errors, 'user': user[0]}
     
     def update_password(self, data):
         errors = []
@@ -102,3 +107,33 @@ class User(Model):
             'id': id
         }
         return self.db.query_db(query, data)
+
+    def add_user_fb(self, data):
+        query_email = "SELECT * FROM users WHERE email = :user_email LIMIT 1"
+        data_email = {
+            'user_email': data['email']
+        }
+        email_check = self.db.query_db(query_email, data_email)
+        errors =[]
+        if len(email_check)==0:
+            query_user = "INSERT INTO users (first_name, last_name, email, created_at, updated_at) VALUES(:first_name, :last_name, :email, NOW(), NOW())"
+            data_user = {
+                'first_name': data['first_name'],
+                'last_name': data['last_name'],
+                'email': data['email']
+            }
+            self.db.query_db(query_user, data_user)
+
+            # users = self.db.query_db(query_email, data_email)
+            return {'status': True, 'user': email_check[0]}
+        else:
+            
+            # users = self.db.query_db(query_email, data_email)
+            return {'status': True, 'user': email_check[0]}
+
+        
+
+
+
+
+
