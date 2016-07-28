@@ -26,3 +26,5 @@ routes['/users/helpers/<int:id>'] = 'Users#show_helpers' # loads list of helpers
 routes['/habits/show_habit/<int:id>'] = 'Habits#show_habit' # loads show_habit.html with a sfecific habit id
 routes['/habits/add_habit'] = 'Habits#add_habit' # loads add_habit.html
 routes['POST']['/habits/new_habit'] = 'Habits#add_new_habit' # validates fields and adds new habit to user
+routes['/habits/ask_for_help/<int:habit_id>'] = 'Habits#ask_for_help'
+routes['POST']['/habits/process_txt'] = 'Habits#process_txt'

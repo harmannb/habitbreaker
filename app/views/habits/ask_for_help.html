@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Habit Breaker | User Password Change page</title>
+	<title>Habit Breaker | Ask for help with habit page</title>
 	<meta charset ="utf-8">
 	<meta name="description" content="Habit breaker will help to break your habits">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
@@ -15,7 +15,6 @@
 	<div id="wrapper">
 		<header>
 			<a href='/'><h1>Habit Breaker</h1></a>
-			
 			<a href="/about">About</a>
 			{% if not 'id' in session %}
 				<a href="/signin">Sign In</a>
@@ -27,30 +26,32 @@
 		</header>
 		<div class="box">
 			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
-			<hr><br>
-			<h3>Update your password:</h3>
 			{% with messages = get_flashed_messages(with_categories=true) %}
 				{% if messages %}
 					{% for category, message in messages %}
-							<span class="{{category}}">{{ message }}</span>
+						
+						<span class="{{category}}">{{ message }}</span>
+						
 					{% endfor %}
 				{% endif %}
 			{% endwith %}
-			<form action="/users/password_change" method="POST">
-				<label for="password">
-					Password: <input type="password" id="password" name="password" placeholder="Password">
+			<form action ="/habits/process_txt" method="POST"> 
+				<label for="phone_number">Your Friend Phone Number: 
+					<input type="text" name="phone_number" id="phone_number" placeholder="+18002221177">
 				</label>
-				<label for="conf_password">
-					Confirmation: <input type="password" id="conf_password" name="conf_password" placeholder="Confirm Password">
-				</label>
-				<input type="hidden" name="id" value="{{ session['id'] }}">
-				<input type="submit" value="Update">
+				<!-- <label for="message">Message:
+					<input type="text" name="amount" id="amount" placeholder="10.00">
+				</label> -->
+				<!-- <label for="description"><span>Description: </span>
+					<textarea name="description" id="description" placeholder="Description goes here"></textarea>
+				</label> -->
+				<input type="hidden" id="first_name" name="first_name" value="{{ session['first_name'] }}">
+				<input type="hidden" id="id" name="id" value="{{ session['id'] }}">
+				<input type="submit" value="Send Text Message" id="submit">
 			</form>
-			<hr>
-			<a href="/users/account/{{session['id']}}">Cancel</a>
-			<a href="/users/edit/{{session['id']}}">Edit account info</a>
-			<a href="/users/delete_user/{{session['id']}}">Delete Account</a>
-			<hr>
+			
+			<a href="/users/{{session['id']}}">Go Back</a>
+			
 		</div>
 		<footer>
 			<p> &copy;RabbitBreakesTeam <a href="/help">Help</a> <a href="/contact">Contact</a></p>

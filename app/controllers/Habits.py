@@ -4,6 +4,16 @@
 """
 from system.core.controller import *
 import datetime
+from twilio.rest import TwilioRestClient
+def send_text(to,from_who, body):
+
+    client = TwilioRestClient(account='AC2f700a89708e9ff3a0269be49d1ef587', token='a4b71e58f6ff4bf5d83bde08e1eab1bb')
+
+    client.messages.create(
+        to=to, 
+        from_=from_who, 
+        body=body, 
+    )
 
 class Habits(Controller):
     def __init__(self, action):
@@ -42,8 +52,39 @@ class Habits(Controller):
                 flash(message, 'errors')
             return redirect('/habits/add_new_habit')
 
+    def ask_for_help(self, habit_id):
 
+        return self.load_view('/habits/ask_for_help.html')
+
+    def send_request_help(self, to, name, id):
+        who = "+19253266225"
+        body = "Please, help me to break my habit. "+ name
+        send_text(to, who, body)
+        flash("You successfully send message", 'valid')
+        return redirect('/users/'+str(id))
+
+    def process_txt(self):
+        data = request.form
+        return redirect('/habits/send_request_help/'+data['phone_number']+"/"+data['first_name']+"/"+data['id'])
     """
+
+
+def send_text(to,from_who, body):
+
+    client = TwilioRestClient(account='AC2f700a89708e9ff3a0269be49d1ef587', token='a4b71e58f6ff4bf5d83bde08e1eab1bb')
+
+    client.messages.create(
+        to=to, 
+        from_=from_who, 
+        body=body, 
+    )
+@app.route("/send_text/<to>/<name>")
+def send(to, body):
+    who = "+19253266225"
+    body = "Please, help me to break my habit. "+ name
+    send_text(to, who, body)
+    return True
+
     def new(self):
         return self.load_view('/products/new.html')
 

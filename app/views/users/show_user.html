@@ -5,10 +5,11 @@
 	<meta charset ="utf-8">
 	<meta name="description" content="Habit breaker will help to break your habits">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
-	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/static/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<script type="text/javascript" src="/static/js/jquery.min.v3.1.0.js"></script>
 	<script type="text/javascript" src="/static/js/script.js"></script>
-	<script type="text/javascript" src="static/js/jquery.min.v3.1.0.js"></script>
+	
 </head>
 <body>
 	<div id="wrapper">
@@ -26,6 +27,15 @@
 		<div class="box">
 			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
 			<a href="/habits/add_habit">Add New Habit</a>
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					{% for category, message in messages %}
+						
+						<span class="{{category}}">{{ message }}</span>
+						
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
 			<h3>Your Habits:</h3><hr>
 			{% if habits %}
 				{% for habit in habits %}
