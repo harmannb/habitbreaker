@@ -57,7 +57,7 @@ class Habits(Controller):
         return self.load_view('/habits/ask_for_help.html')
 
     def send_request_help(self, to, name, id):
-        who = "+19253266225"
+        who = ""
         body = "Please, help me to break my habit. "+ name
         send_text(to, who, body)
         flash("You successfully send message", 'valid')
@@ -71,7 +71,7 @@ class Habits(Controller):
 
 def send_text(to,from_who, body):
 
-    client = TwilioRestClient(account='AC2f700a89708e9ff3a0269be49d1ef587', token='a4b71e58f6ff4bf5d83bde08e1eab1bb')
+    client = TwilioRestClient(account='', token='')
 
     client.messages.create(
         to=to, 
@@ -80,7 +80,7 @@ def send_text(to,from_who, body):
     )
 @app.route("/send_text/<to>/<name>")
 def send(to, body):
-    who = "+19253266225"
+    who = ""
     body = "Please, help me to break my habit. "+ name
     send_text(to, who, body)
     return True
