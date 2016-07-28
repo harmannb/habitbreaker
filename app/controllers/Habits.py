@@ -5,6 +5,16 @@
 from system.core.controller import *
 import datetime
 from twilio.rest import TwilioRestClient
+<<<<<<< HEAD
+||||||| merged common ancestors
+def send_text(to,from_who, body):
+
+    client = TwilioRestClient(account='AC2f700a89708e9ff3a0269be49d1ef587', token='a4b71e58f6ff4bf5d83bde08e1eab1bb')
+=======
+def send_text(to,from_who, body):
+
+    client = TwilioRestClient(account='', token='')
+>>>>>>> 4b91279b081505b59dcd1d34e79c139486df0839
 
 def send_text(to,from_who, body):
     client = TwilioRestClient(account='', token='')
@@ -64,8 +74,9 @@ class Habits(Controller):
             flash('Something went wrong while deleting', 'error')
         return redirect('/users/'+str(session['id']))
 
+
     def send_request_help(self, to, name, id, habit_id):
-        who = "+"
+        who = ""
         # send message with link to the route /signup/habit_id
         body = "Please, help me to break my habit. Signup here http://localhost:5000/signup/"+habit_id+ " or signin to here http://localhost:5000/signin/"+habit_id+" to confirrm your will to help."+ name
         send_text(to, who, body)
@@ -78,7 +89,6 @@ class Habits(Controller):
 
 
     """
-
 
 
 
