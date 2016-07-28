@@ -7,7 +7,7 @@ import datetime
 from twilio.rest import TwilioRestClient
 def send_text(to,from_who, body):
 
-    client = TwilioRestClient(account='AC2f700a89708e9ff3a0269be49d1ef587', token='a4b71e58f6ff4bf5d83bde08e1eab1bb')
+    client = TwilioRestClient(account='', token='')
 
     client.messages.create(
         to=to, 
