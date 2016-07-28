@@ -63,11 +63,11 @@ class Habits(Controller):
         else:
             flash('Something went wrong while deleting', 'error')
         return redirect('/users/'+str(session['id']))
-        
+
     def send_request_help(self, to, name, id, habit_id):
-        who = ""
+        who = "+"
         # send message with link to the route /signup/habit_id
-        body = "Please, help me to break my habit. "+ name
+        body = "Please, help me to break my habit. Signup here http://localhost:5000/signup/"+habit_id+ " or signin to here http://localhost:5000/signin/"+habit_id+" to confirrm your will to help."+ name
         send_text(to, who, body)
         flash("You successfully send message", 'valid')
         return redirect('/users/'+str(id))
