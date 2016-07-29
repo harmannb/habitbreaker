@@ -68,8 +68,8 @@ class Habits(Controller):
 
     def send_request_help(self, to, name, id, habit_id):
         who = "+"
-        # send message with link to the route /signup/habit_id
-        body = "Please, help me to break my habit. Signup here www.localhost:5000/signup/"+habit_id+ " or signin to here www.localhost:5000/signin/"+habit_id+" to confirrm your will to help. "+ name
+        # send message with link to the route /signup/habit_id 
+        body = "Please, help me to break my habit. Signup here http://54.218.119.35/signup/"+habit_id+ " or signin to here http://54.218.119.35/signin/"+habit_id+" to confirrm your will to help. "+ name
         send_text(to, who, body)
         flash("You successfully send message", 'valid')
         return redirect('/users/'+str(id))
