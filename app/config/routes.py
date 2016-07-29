@@ -39,6 +39,7 @@ routes['/habits/ask_for_help/<int:habit_id>'] = 'Habits#ask_for_help' # loads as
 routes['POST']['/habits/process_txt'] = 'Habits#process_txt' # process data and redirects to the send_request_help function
 # if helper click on the link provided by habit-holder where is habit_id
 routes['/signup/<int:habit_id>'] = 'Habits#signup_helper_load' # loads signup.html with extrs variable to use
+routes['/signin/<int:habit_id>'] = 'Habits#signin_helper_load' # loads signin.html with extrs variable to use
 
 
 

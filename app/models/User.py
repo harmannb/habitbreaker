@@ -102,7 +102,7 @@ class User(Model):
         return True
 
     def show_helpers_by_habit_id(self,id):
-        query = "SELECT users.id as helper_id, concat(users.first_name, ' ', users.last_name) as helper_name , users.email as helper_email  FROM users  WHERE users.id in ( SELECT helpers.helper_id FROM helpers WHERE habit_id = 1);"
+        query = "SELECT users.id as helper_id, concat(users.first_name, ' ', users.last_name) as helper_name , users.email as helper_email  FROM users  WHERE users.id in ( SELECT helpers.helper_id FROM helpers WHERE habit_id = :id);"
         data = {
             'id': id
         }

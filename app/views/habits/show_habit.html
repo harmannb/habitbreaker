@@ -15,7 +15,7 @@
 	<div id="wrapper">
 		<header>
 			<a href='/'><h1>Habit Breaker</h1></a>
-			<a href="/about">About</a>
+			<a href="#">About</a>
 			{% if not 'id' in session %}
 				<a href="/signin">Sign In</a>
 				<a href="/signup">Sign Up</a>
@@ -49,11 +49,11 @@
 							<td>{{data['helper_name']}}</td>
 							<td>${{data['amount']}}</td>
 							<td>
-								<a href="/habits/pay_violation/{{data['viol_id']}}">Pay</a>
+								<!-- <a href="/habits/pay_violation/{{data['viol_id']}}">Pay</a> -->
 								<form action="/habits/pay_violation/{{data['viol_id']}}" method="POST">
 									<input type="hidden" name="email" value="{{data['helper_email']}}"><!-- helper email-->
 									<input type="hidden" name="amount" value="{{data['amount']}}"><!-- amount for violation-->
-									<input type="submit" value="Pay">
+									<input type="submit" value="Pay Now">
 								</form>
 								<!-- <a href="/destroy/{{data.habit_id}}">Remove</a> -->
 							</td>
@@ -68,7 +68,7 @@
 			
 		</div>
 		<footer>
-			<p> &copy;RabbitBreakesTeam <a href="/help">Help</a> <a href="/contact">Contact</a></p>
+			<p> &copy;RabbitBreakesTeam <a href="#">Help</a> <a href="#">Contact</a></p>
 		</footer>
 	</div>
 </body>

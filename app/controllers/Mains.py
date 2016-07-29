@@ -41,7 +41,7 @@ class Mains(Controller):
         if validate['status'] == True:
             session['id'] = validate['user']['id']
             session['first_name'] = validate['user']['first_name']
-            if request.form['habit_id']:
+            if 'habit_id' in request.form:
                 self.models['Habit'].add_helper(session['id'], request.form['habit_id'])
                 return redirect('/users/'+str(session['id']))
             else:
@@ -57,15 +57,27 @@ class Mains(Controller):
     
     def login(self):
         validate = self.models['Main'].validate_log_user(request.form)
+        print 1
         if validate['status'] == True:
             session['id'] = validate['user']['id']
             session['first_name'] = validate['user']['first_name']
-            # change to /quotes
-            return redirect('/users/'+str(session['id']))
+            print 2
+            if 'habit_id' in request.form:
+                print 3
+                self.models['Habit'].add_helper(session['id'], request.form['habit_id'])
+                print 4
+                return redirect('/users/'+str(session['id']))
+            else:
+                print 5
+                return redirect('/users/'+str(session['id']))
         else:
             for message in validate['errors']:
-                flash(message, 'error log')
-            return redirect('/signin')
+                flash(message, 'error reg')
+            if request.form['habit_id']:
+                return redirect('/signin/'+str(request.form['habit_id']))
+            else:
+                return redirect('/signin')
+
 
     def logout(self):
         session.clear()

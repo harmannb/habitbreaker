@@ -81,6 +81,9 @@ class Habits(Controller):
     def signup_helper_load(self, habit_id):
         return self.load_view('/main/signup.html', habit_id = habit_id)
 
+    def signin_helper_load(self, habit_id):
+        return self.load_view('/main/signin.html', habit_id = habit_id)
+
     def submit_viol(self, habit_id, helper_id):
         return self.load_view('/habits/submit.html', habit_id = habit_id, helper_id = helper_id)
 
@@ -89,6 +92,7 @@ class Habits(Controller):
         if validate:
             who = "+"
             to = "+"
+            # to = "+"
             body = "You got caught! You are going to be charged!"
             send_text(to, who, body)
             flash("You successfully submited violation!", 'valid')

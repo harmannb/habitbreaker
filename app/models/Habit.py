@@ -87,7 +87,6 @@ class Habit(Model):
             'habit_id' : habit_id
         }
         self.db.query_db(query, data)
-        return True
 
     def add_new_viol(self, data):
         query = "INSERT INTO violations (created_at, updated_at, habit_id, helper_id) VALUES (NOW(), NOW(), :habit_id, :helper_id);"
