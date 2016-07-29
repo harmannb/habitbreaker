@@ -20,6 +20,7 @@ class Habits(Controller):
         
         self.load_model('User')
         self.load_model('Habit')
+        self.load_model('Main')
         self.db = self._app.db
 
    
@@ -30,12 +31,13 @@ class Habits(Controller):
     def show_habit(self,id):
         habit = self.models['Habit'].show_habit_by_id(id)
         violation = self.models['Habit'].show_viol_by_habitid(id)
+
         habit_violations = self.models['Habit'].get_violations_by_habit_id(id)
         sum_am = 0
         for i in habit_violations:
             sum_am += i['amount']
 
-        return self.load_view('/habits/show_habit.html', habit_violations = habit_violations, sum = sum_am)
+        return self.load_view('/habits/show_habit.html',habit_id = id, habit_violations = habit_violations, sum = sum_am)
 
     def add_habit(self):
         return self.load_view('/habits/add_habit.html')
@@ -45,7 +47,7 @@ class Habits(Controller):
         if validate['status'] == True:
             for message in validate['errors']:
                 flash(message, 'valid')
-            return redirect('/users/'+str(session['id']))
+            return redirect('/users/'+str(request.form['id']))
         else:
             for message in validate['errors']:
                 flash(message, 'error')
@@ -67,7 +69,7 @@ class Habits(Controller):
     def send_request_help(self, to, name, id, habit_id):
         who = "+"
         # send message with link to the route /signup/habit_id
-        body = "Please, help me to break my habit. Signup here http://localhost:5000/signup/"+habit_id+ " or signin to here http://localhost:5000/signin/"+habit_id+" to confirrm your will to help."+ name
+        body = "Please, help me to break my habit. Signup here www.localhost:5000/signup/"+habit_id+ " or signin to here www.localhost:5000/signin/"+habit_id+" to confirrm your will to help. "+ name
         send_text(to, who, body)
         flash("You successfully send message", 'valid')
         return redirect('/users/'+str(id))
@@ -75,6 +77,28 @@ class Habits(Controller):
     def process_txt(self):
         data = request.form
         return redirect('/habits/send_request_help/'+data['phone_number']+"/"+data['first_name']+"/"+data['id']+"/"+data['habit_id'])
+
+    def signup_helper_load(self, habit_id):
+        return self.load_view('/main/signup.html', habit_id = habit_id)
+
+    def submit_viol(self, habit_id, helper_id):
+        return self.load_view('/habits/submit.html', habit_id = habit_id, helper_id = helper_id)
+
+    def process_viol(self):
+        validate = self.models['Habit'].add_new_viol(request.form)
+        if validate:
+            who = "+"
+            to = "+"
+            body = "You got caught! You are going to be charged!"
+            send_text(to, who, body)
+            flash("You successfully submited violation!", 'valid')
+            return redirect('/users/'+str(request.form['helper_id']))
+        else:
+            flash("Something went wrong while submiting", 'error')
+            return redirect('/habits/submit/'+str(request.form['habit_id'])+"/"+str(request.form['helper_id']))
+
+
+
 
 
     """

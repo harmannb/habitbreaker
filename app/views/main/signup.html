@@ -57,7 +57,9 @@
 				<label for="conf_password">
 					Confirmation: <input type="password" id="conf_password" name="conf_password" placeholder="Confirm Password">
 				</label>
-				
+				{%if habit_id%}
+					<input type="hidden" value = "{{habit_id}}" name="habit_id" id="habit_id">
+				{% endif %}
 				<input type="submit" value="Submit" name="submit">
 			</form>
 			<!-- facebook signup -->

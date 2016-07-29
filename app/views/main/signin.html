@@ -46,6 +46,9 @@
 				<label for="password_log">
 					Password: <input type="password" id="password_log" name="password" placeholder="Password">
 				</label>
+				{%if habit_id%}
+					<input type="hidden" value = "{{habit_id}}" name="habit_id" id="habit_id">
+				{% endif %}
 				<input type="submit" value="Log In" name="submit">
 				<!-- <input type="submit" value="Clear the form" name="submit"> -->
 			</form>

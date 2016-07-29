@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Habit Breaker | Ask for help with habit page</title>
+	<meta charset ="utf-8">
+	<meta name="description" content="Habit breaker will help to break your habits">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+	<link rel="stylesheet" type="text/css" href="/static/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<script type="text/javascript" src="/static/js/jquery.min.v3.1.0.js"></script>
+	<script type="text/javascript" src="/static/js/script.js"></script>
+	
+</head>
+<body>
+	<div id="wrapper">
+		<header>
+			<a href='/'><h1>Habit Breaker</h1></a>
+			<a href="/about">About</a>
+			{% if not 'id' in session %}
+				<a href="/signin">Sign In</a>
+				<a href="/signup">Sign Up</a>
+			{%else%}
+				<a href="/users/{{session['id']}}">My page</a>
+				<a href="/users/account/{{session['id']}}">Account info</a>
+				<a href="/logout">Log Out</a>
+			{% endif %}
+		</header>
+		<div class="box">
+			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					{% for category, message in messages %}
+						
+						<span class="{{category}}">{{ message }}</span>
+						
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+			<h3>Are you sure you want to submit violation?</h3>
+			<form action ="/habits/process_viol" method="POST"> 
+				<!-- <label for="phone_number">Your Friend Phone Number: 
+					<input type="text" name="phone_number" id="phone_number" placeholder="+18002221177">
+				</label> -->
+				<!-- <label for="message">Message:
+					<input type="text" name="amount" id="amount" placeholder="10.00">
+				</label> -->
+				<!-- <label for="description"><span>Description: </span>
+					<textarea name="description" id="description" placeholder="Description goes here"></textarea>
+				</label> -->
+				<!-- <input type="hidden" id="first_name" name="first_name" value="{{ session['first_name'] }}"> -->
+				<input type="hidden" id="helper_id" name="helper_id" value="{{helper_id}}">
+				<input type="hidden" id="habit_id" name="habit_id" value="{{habit_id}}">
+				<input type="submit" value="Confirm Violation" id="submit">
+			</form>
+			
+			<a href="/users/{{session['id']}}">Go Back</a>
+			
+		</div>
+		<footer>
+			<p> &copy;RabbitBreakesTeam <a href="/help">Help</a> <a href="/contact">Contact</a></p>
+		</footer>
+	</div>
+</body>
+</html>

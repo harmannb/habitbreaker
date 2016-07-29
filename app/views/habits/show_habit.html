@@ -27,10 +27,11 @@
 		</header>
 		<div class="box">
 			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2><h3>Violations:</h3>
+			<a href="/users/helpers/{{habit_id}}">List of my Helpers</a>
 			{% if habit_violations %}
 			
 			<h3>Habit Details - "{{habit_violations[0]['habit_name']}}", created at - "{{habit_violations[0]['habit_date'].strftime('%b %d %Y %I:%M %p')}}", total amount - ${{sum}}</h3>
-			<a href="/users/helpers/{{session['id']}}">List of my Helpers</a>
+			<!-- <a href="/users/helpers/{{session['id']}}">List of my Helpers</a> -->
 			<br>
 				
 			<table>

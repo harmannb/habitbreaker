@@ -31,12 +31,14 @@ routes['/habits/show_habit/<int:id>'] = 'Habits#show_habit' # loads show_habit.h
 routes['/habits/add_habit'] = 'Habits#add_habit' # loads add_habit.html
 routes['POST']['/habits/new_habit'] = 'Habits#add_new_habit' # validates fields and adds new habit to user
 routes['/habits/delete/<int:id>'] = 'Habits#delete_habit' # deletes a habit by id
+routes['/habits/submit/<int:habit_id>/<int:helper_id>'] = 'Habits#submit_viol' # loads confiration page for submition
+routes['POST']['/habits/process_viol'] = 'Habits#process_viol'
 
 # text message to helpers
 routes['/habits/ask_for_help/<int:habit_id>'] = 'Habits#ask_for_help' # loads ask_for_help.html
 routes['POST']['/habits/process_txt'] = 'Habits#process_txt' # process data and redirects to the send_request_help function
 # if helper click on the link provided by habit-holder where is habit_id
-routes['/signup/<int:habit_id>'] = 'Mains#signup_helper' # loads signup.html with extrs variable to use
+routes['/signup/<int:habit_id>'] = 'Habits#signup_helper_load' # loads signup.html with extrs variable to use
 
 
 

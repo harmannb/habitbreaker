@@ -30,7 +30,9 @@
 			{% if helpers %}
 				{%for helper in helpers%}
 
-				<h3>{{helper['helper_name']}} hepls with {{violations[0]['habit_name']}}</h3><br>
+				<h3>{{helper['helper_name']}}</h3><br>
+				{% if violations %}
+				<h3>hepls with {{violations[0]['habit_name']}}</h3>
 				{% for data in violations %}
 					{% if helper['helper_id'] == data['helper_id']%}
 						<table>
@@ -57,10 +59,12 @@
 						</table>
 					{% endif %}
 				{% endfor %}
+
+				{%endif%}
 					<!-- <h3>Total amount - {{sum}}</h3><a href="">Pay all</a> -->
 				{% endfor %}
 			{% endif %}
-			<a href="/habits/show_habit/{{violations[0]['habit_id']}}">Go Back</a>
+			<a href="/habits/show_habit/{{habit_id}}">Go Back</a>
 			
 		</div>
 		<footer>

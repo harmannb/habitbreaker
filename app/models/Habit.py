@@ -40,14 +40,14 @@ class Habit(Model):
 
     def delete_habit(self,id):
         #check viol before deleting
-        
+
         query = "DELETE FROM habits WHERE id = :id"
         data = {
             'id': id
         }
         self.db.query_db(query, data)
         return True
-        
+
     def get_violations_by_habit_id(self, id):
         query_viol = "SELECT violations.created_at as viol_date, violations.id as viol_id, concat(users.first_name, ' ', users.last_name) as helper_name, violations.helper_id, users.email as helper_email, habits.amount as amount, habits.habit_name as habit_name, habits.created_at as habit_date, habits.id as habit_id  FROM violations  LEFT JOIN users ON users.id = violations.helper_id LEFT JOIN habits ON habits.id = violations.habit_id WHERE habit_id = :id;"
         data_viol = {
@@ -79,6 +79,24 @@ class Habit(Model):
             self.db.query_db(query_new_habit, data_new_habit)
             errors.append('You have successfully added a new habit!')
             return {'status': True, 'errors': errors}
+
+    def add_helper(self, helper_id, habit_id):
+        query = "INSERT INTO helpers (created_at, updated_at, habit_id, helper_id) VALUES (NOW(), NOW(), :habit_id, :helper_id);"
+        data = {
+            'helper_id' : helper_id,
+            'habit_id' : habit_id
+        }
+        self.db.query_db(query, data)
+        return True
+
+    def add_new_viol(self, data):
+        query = "INSERT INTO violations (created_at, updated_at, habit_id, helper_id) VALUES (NOW(), NOW(), :habit_id, :helper_id);"
+        data = {
+            'helper_id' : data['helper_id'],
+            'habit_id' : data['habit_id']
+        }
+        self.db.query_db(query, data)
+        return True
     """
     def create_product(self, data):
             errors=[]

@@ -4,6 +4,7 @@ select * from violations;
 select * from helpers;
 
 SELECT * FROM habits WHERE holder_id = 1;
+DELETE FROM habits WHERE id = 9;
 
 INSERT INTO `habitbreakerdb`.`violations` (`created_at`, `updated_at`, `habit_id`, `helper_id`) VALUES (NOW(), NOW(), '1', 2);
 select * from helpers;
