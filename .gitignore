@@ -4,3 +4,5 @@
 venv/*
 pylotVenv/*
 __pycache__/*
+habbreakdbmodel.mwb
+app/config/database.py
