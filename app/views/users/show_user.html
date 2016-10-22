@@ -84,7 +84,7 @@
 					{% for habit in friend_habits %}
 						<tr>
 							<!-- <td>Display data</td> -->
-							<td><a href="/habits/show_hab	it/{{habit['id']}}">{{habit['habit_name']}}</a></td>
+							<td><a href="/habits/show_habit/{{habit['id']}}">{{habit['habit_name']}}</a></td>
 							<td>{{habit['first_name']}}</td>
 							<td>${{habit['amount']}}</td>
 							<td><a href="/habits/submit/{{habit['id']}}/{{session['id']}}">Submit violation</td>
