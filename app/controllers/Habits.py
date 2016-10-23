@@ -94,8 +94,9 @@ class Habits(Controller):
             to = "+"
             # to = "+"
             body = "You got caught! You are going to be charged!"
-            send_text(to, who, body)
-            flash("You successfully submited violation!", 'valid')
+            # will be uccommented when we add numbers
+            # send_text(to, who, body)
+            flash("You successfully submited violation! It should send text message to your friend!", 'valid')
             return redirect('/users/'+str(request.form['helper_id']))
         else:
             flash("Something went wrong while submiting", 'error')

@@ -41,6 +41,8 @@ class Mains(Controller):
         if validate['status'] == True:
             session['id'] = validate['user']['id']
             session['first_name'] = validate['user']['first_name']
+            # print "habit_id"
+            # print 'habit_id' in request.form
             if 'habit_id' in request.form:
                 self.models['Habit'].add_helper(session['id'], request.form['habit_id'])
                 return redirect('/users/'+str(session['id']))
@@ -49,7 +51,7 @@ class Mains(Controller):
         else:
             for message in validate['errors']:
                 flash(message, 'error reg')
-            if request.form['habit_id']:
+            if 'habit_id' in request.form:
                 return redirect('/signup/'+str(request.form['habit_id']))
             else:
                 return redirect('/signup')
@@ -57,25 +59,36 @@ class Mains(Controller):
     
     def login(self):
         validate = self.models['Main'].validate_log_user(request.form)
-        print 1
+        # print 1
+        # print validate
         if validate['status'] == True:
             session['id'] = validate['user']['id']
             session['first_name'] = validate['user']['first_name']
-            print 2
+            # print 2
+            # print "habit_id"
+            # print 'habit_id' in request.form
             if 'habit_id' in request.form:
-                print 3
+                # print 3
                 self.models['Habit'].add_helper(session['id'], request.form['habit_id'])
-                print 4
+                # print 4
                 return redirect('/users/'+str(session['id']))
             else:
-                print 5
+                # print 5
                 return redirect('/users/'+str(session['id']))
         else:
+            print validate['errors']
             for message in validate['errors']:
-                flash(message, 'error reg')
-            if request.form['habit_id']:
+                flash(message, 'error log')
+            # print flash
+            # print "habit_id"
+            # print 'habit_id' in request.form
+
+            if 'habit_id' in request.form:
+                # print 6
                 return redirect('/signin/'+str(request.form['habit_id']))
             else:
+                # print 7
+                # print flash
                 return redirect('/signin')
 
 
