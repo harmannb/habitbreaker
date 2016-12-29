@@ -3,50 +3,90 @@
 <head>
 	<title>Habit Breaker | User Edit page</title>
 	<meta charset ="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--   BOOTSTRAP -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--   END BOOTSTRAP -->
 	<meta name="description" content="Habit breaker will help to break your habits">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" >
 	<link rel="stylesheet" type="text/css" href="/static/css/normalize.css">
-	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css"> -->
 	<script type="text/javascript" src="/static/js/jquery.min.v3.1.0.js"></script>
 	<script type="text/javascript" src="/static/js/script.js"></script>
-	
+
 </head>
 <body>
-	<div id="wrapper">
-		<header>
-			<a href='/'><h1>Habit Breaker</h1></a>
-			
-			<a href="#">About</a>
-			{% if not 'id' in session %}
-				<a href="/signin">Sign In</a>
-				<a href="/signup">Sign Up</a>
-			{%else%}
-				<a href="/users/{{session['id']}}">My page</a>
-				<a href="/users/account/{{session['id']}}">Account info</a>
-				<a href="/logout">Log Out</a>
+
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href='/'>Habit Breaker</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">About</a></li>
+					{% if not 'id' in session %}
+						<li><a href="/signin">Sign In</a></li>
+						<li><a href="/signup">Sign Up</a></li>
+					{%else%}
+						<li><a href="/users/{{session['id']}}">Habits</a></li>
+						<li><a href="/users/account/{{session['id']}}">Account</a></li>
+						<li><a href="/logout">Log Out</a></li>
+					{% endif %}
+		  	</ul>
+		  </div>
+		</div>
+	</nav>
+	<div class="container">
+		<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
+		<hr><br>
+		<h3>Update Information:</h3>
+		{% with messages = get_flashed_messages(with_categories=true) %}
+			{% if messages %}
+				{% for category, message in messages %}
+						<span class="{{category}}">{{ message }}</span>
+				{% endfor %}
 			{% endif %}
-		</header>
-		<div class="box">
-			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
-			<hr><br>
-			<h3>Update your information:</h3>
-			{% with messages = get_flashed_messages(with_categories=true) %}
-				{% if messages %}
-					{% for category, message in messages %}
-							<span class="{{category}}">{{ message }}</span>
-					{% endfor %}
-				{% endif %}
-			{% endwith %}
-			<form action="/users/update/{{ session['id'] }}" method="POST">
-				<label for='first_name'>
-					First Name: <input type="text" id="first_name" name="first_name" placeholder="First Name" value="{{user['first_name']}}">
-				</label>
-				<label for="last_name">
-					Last Name: <input type="text" id="last_name" name="last_name" placeholder="Last Name" value="{{user['last_name']}}">
-				</label>
-				<label for = "email">
-					Email: <input type="text" id="email" name="email" placeholder="Email" value="{{user['email']}}">
-				</label>
+		{% endwith %}
+		<form class="form-horizontal" action="/users/update/{{ session['id'] }}" method="POST">
+			<div class="form-group">
+				<label class="control-label col-sm-2" for='first_name'>First Name:</label>
+	  		<div class="col-sm-3">
+	    		<input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" value="{{user['first_name']}}">
+	  		</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for='last_name'>Last Name:</label>
+	  		<div class="col-sm-3">
+	    		<input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name" value="{{user['last_name']}}">
+	  		</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for='email'>Email:</label>
+	  		<div class="col-sm-3">
+	    		<input type="text" class="form-control" name="email" id="email" placeholder="Email" value="{{user['email']}}">
+	  		</div>
+			</div>
+			<div class="form-group">
+	  		<label class="col-md-4 control-label"></label>
+  				<div class="col-md-8">
+		  			<input class="form-control" type="hidden" name="id" value="{{ session['id'] }}">
+		  			<input class="btn btn-default" type="submit" value="Update">
+		  			<a href="/users/account/{{session['id']}}" class="btn btn-default">Cancel</a>
+		  		</div>
+			</div>
+		</form>
+	</div>
+
+
 				<!-- <label for = "phone_number">
 					Phone Number: <input type="text" id="phone_number" name="phone_number" placeholder="8881112233" value="{{user['phone_number']}}">
 				</label> -->
@@ -58,18 +98,9 @@
 				<label for="conf_password">
 					Confirmation: <input type="password" id="conf_password" name="conf_password" placeholder="Confirm Password">
 				</label> -->
-				<input type="hidden" name="id" value="{{ session['id'] }}">
-				<input type="submit" value="Update">
-			</form>
-			<hr>
-			<a href="/users/account/{{session['id']}}">Cancel</a>
-			<a href="/users/password/{{session['id']}}">Change password</a>
-			<a href="/users/delete_user/{{session['id']}}">Delete Account</a>
-			<hr>
-		</div>
-		<footer>
-			<p> &copy;RabbitBreakesTeam <a href="#">Help</a> <a href="#">Contact</a></p>
-		</footer>
+
+	<div class="panel panel-default">
+		<div class="panel-footer">&copy; HabitBreakerTeam <a href="#">Help</a> <a href="#">Contact</a></div>
 	</div>
 </body>
 </html>

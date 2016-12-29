@@ -3,101 +3,115 @@
 <head>
 	<title>Habit Breaker | User page</title>
 	<meta charset ="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--   BOOTSTRAP -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--   END BOOTSTRAP -->
 	<meta name="description" content="Habit breaker will help to break your habits">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" >
 	<link rel="stylesheet" type="text/css" href="/static/css/normalize.css">
-	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css"> -->
 	<script type="text/javascript" src="/static/js/jquery.min.v3.1.0.js"></script>
 	<script type="text/javascript" src="/static/js/script.js"></script>
-	
+
 </head>
 <body>
-	<div id="wrapper">
-		<header>
-			<a href='/'><h1>Habit Breaker</h1></a>
-			<a href="#">About</a>
-			{% if not 'id' in session %}
-				<a href="/signin">Sign In</a>
-				<a href="/signup">Sign Up</a>
-			{%else%}
-				<a href="/users/{{session['id']}}">My page</a>
-				<a href="/users/account/{{session['id']}}">Account info</a>
-				<a href="/logout">Log Out</a>
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href='/'>Habit Breaker</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">About</a></li>
+					{% if not 'id' in session %}
+						<li><a href="/signin">Sign In</a></li>
+						<li><a href="/signup">Sign Up</a></li>
+					{%else%}
+						<li><a href="/users/{{session['id']}}">Habits</a></li>
+						<li><a href="/users/account/{{session['id']}}">Account</a></li>
+						<li><a href="/logout">Log Out</a></li>
+					{% endif %}
+		  	</ul>
+		  </div>
+		</div>
+	</nav>
+	<div class="container">
+		<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
+		<a href="/habits/add_habit" class="btn btn-default">Add Habit</a>
+		{% with messages = get_flashed_messages(with_categories=true) %}
+			{% if messages %}
+				{% for category, message in messages %}
+					<span class="{{category}}">{{ message }}</span>
+				{% endfor %}
 			{% endif %}
-		</header>
-		<div class="box">
-			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
-			<a href="/habits/add_habit">Add New Habit</a>
-			{% with messages = get_flashed_messages(with_categories=true) %}
-				{% if messages %}
-					{% for category, message in messages %}
-						
-						<span class="{{category}}">{{ message }}</span>
-						
+		{% endwith %}
+		<hr><hr><br>
+		<h3>Your Habits:</h3><br>
+		{% if habits %}
+		<div class="well">
+    <table class="table">
+    	<thead>
+				<th><h3>Name</h3></th>
+				<th><h3>Amount Per Violation</h3></th>
+				<th><h3>Action</h3></th>
+				<th style="width: 36px;"></th>
+			</thead>
+			<tbody>
+				{% for habit in habits %}
+				<tr>
+					<td><a href="/habits/show_habit/{{habit['id']}}" class="btn btn-default">{{habit['habit_name']}}</a></td>
+					<td>${{habit['amount']}}</td>
+					<td>
+						<a href="/habits/ask_for_help/{{habit['id']}}" class="btn btn-default">Ask for Help</a>
+						<a href="/habits/delete/{{habit['id']}}" class="btn btn-default">Delete</a>
+					</td>
+
+				</tr>
 					{% endfor %}
-				{% endif %}
-			{% endwith %}
-			<hr><hr><br>
-			<h3>Your Habits:</h3><br>
-			{% if habits %}
-				
-
-				<table>
-				<thead>
-					<!-- <th><h3>View</h3></th> -->
-					<th><h3>Habit Name</h3></th>
-					<th><h3>Amout per violation</h3></th>
-					<th><h3>Action</h3></th>
-				</thead>
-
-				<tbody>
-					{% for habit in habits %}
-						<tr>
-							<!-- <td>Display data</td> -->
-							<td><a href="/habits/show_habit/{{habit['id']}}">{{habit['habit_name']}}</a></td>
-							<td>${{habit['amount']}}</td>
-							<td>
-								<a href="/habits/ask_for_help/{{habit['id']}}">Ask for help with {{habit['habit_name']}}</a>
-								<a href="/habits/delete/{{habit['id']}}">Delete {{habit['habit_name']}}</a>
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-			{% endif %}
-			<br>
-			<hr><hr><br>
-			<h3>Your Friends Habits:</h3><br>
-			{% if friend_habits %}
-				
-
-				<table>
-				<thead>
-					<!-- <th><h3>View</h3></th> -->
-					<th><h3>Habit Name</h3></th>
-					<th><h3>Friend Name</h3></th>
-					<th><h3>Amout per violation</h3></th>
-					<th><h3>Action</h3></th>
-				</thead>
-
+			</tbody>
+    </table>
+		{% endif %}
+		<br>
+		<hr><hr><br>
+		<h3>Your Friends Habits:</h3><br>
+		{% if friend_habits %}
+		<table class="table">
+    	<thead>
+			<thead>
+				<th><h3>Habit</h3></th>
+				<th><h3>Friend</h3></th>
+				<th><h3>Amount Per Violation</h3></th>
+				<th><h3>Action</h3></th>
+				<th style="width: 36px;"></th>
+			</thead>
+			<tbody>
 				<tbody>
 					{% for habit in friend_habits %}
 						<tr>
 							<!-- <td>Display data</td> -->
-							<td><a href="/habits/show_habit/{{habit['id']}}">{{habit['habit_name']}}</a></td>
+							<td><a href="/habits/show_habit/{{habit['id']}}" class="btn btn-default"class="btn btn-default">{{habit['habit_name']}}</a></td>
 							<td>{{habit['first_name']}}</td>
 							<td>${{habit['amount']}}</td>
-							<td><a href="/habits/submit/{{habit['id']}}/{{session['id']}}">Submit violation</td>
+							<td><a href="/habits/submit/{{habit['id']}}/{{session['id']}}" class="btn btn-default">Submit violation</td>
 						</tr>
 					{% endfor %}
 				</tbody>
-			</table>
-			{% endif %}
-
+ 			</table>
+		{% endif %}
 		</div>
-		<footer>
-			<p> &copy;RabbitBreakesTeam <a href="#">Help</a> <a href="#">Contact</a></p>
-		</footer>
+	</div>
+
+	<div class="panel panel-default">
+	  <div class="panel-footer">&copy; HabitBreakerTeam <a href="#">Help</a> <a href="#">Contact</a></div>
 	</div>
 </body>
 </html>

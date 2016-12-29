@@ -3,32 +3,49 @@
 <head>
 	<title>Habit Breaker | Sign In</title>
 	<meta charset ="utf-8">
-	<meta name="description" content="Sign In to Habit breaker to break your habits">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--   BOOTSTRAP -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--   END BOOTSTRAP -->
+	<meta name="description" content="Habit breaker will help to break your habits">
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" >
 	<link rel="stylesheet" type="text/css" href="/static/css/normalize.css">
-	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css"> -->
 	<script type="text/javascript" src="/static/js/jquery.min.v3.1.0.js"></script>
 	<script type="text/javascript" src="/static/js/script.js"></script>
-	
+
 </head>
 <body>
-	<div id="wrapper">
-		<header>
-			<a href='/'><h1>Habit Breaker</h1></a>
-			
-			<a href="#">About</a>
-			{% if not 'id' in session %}
-				<a href="/signin">Sign In</a>
-				<a href="/signup">Sign Up</a>
-			{%else%}
-				<a href="/users/{{session['id']}}">My page</a>
-				<a href="/users/account/{{session['id']}}">Account info</a>
-				<a href="/logout">Log Out</a>
-			{% endif %}
-		</header>
-		<div class="box">
-			<h2>Welcome{% if 'first_name' in session %}, {{session['first_name']}}{% endif %}!</h2>
-			<h2>Log In</h2>
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href='/'>Habit Breaker</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">About</a></li>
+					{% if not 'id' in session %}
+						<li><a href="/signin">Sign In</a></li>
+						<li><a href="/signup">Sign Up</a></li>
+					{%else%}
+						<li><a href="/users/{{session['id']}}">Habits</a></li>
+						<li><a href="/users/account/{{session['id']}}">Account</a></li>
+						<li><a href="/logout">Log Out</a></li>
+					{% endif %}
+		  	</ul>
+		  </div>
+		</div>
+	</nav>
+	<div class="container">
+		<h2>Log In</h2>
 			{% with messages = get_flashed_messages(with_categories=true) %}
 				{% if messages %}
 					{% for category, message in messages %}
@@ -38,20 +55,36 @@
 					{% endfor %}
 				{% endif %}
 			{% endwith %}
-			
-			<form action="/login" method="POST">
-				<label for = "email_log">
-					Email: <input type="text" id="email_log" name="email" placeholder="Email" value="">
-				</label>
-				<label for="password_log">
-					Password: <input type="password" id="password_log" name="password" placeholder="Password">
-				</label>
-				{%if habit_id%}
-					<input type="hidden" value = "{{habit_id}}" name="habit_id" id="habit_id">
-				{% endif %}
-				<input type="submit" value="Log In" name="submit">
-				<!-- <input type="submit" value="Clear the form" name="submit"> -->
-			</form>
+		<form class="form-horizontal" action="/login" method="POST">
+				<div class="form-group">
+					<label class="control-label col-sm-2" for = "email_log">Email:</label>
+	    		<div class="col-sm-3">
+	      		<input type="text" class="form-control" name="email" id="email_log" placeholder="Email" value="">
+	    		</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for='password_log'>Password:</label>
+	    		<div class="col-sm-3">
+	      		<input type="password" class="form-control" name="password" id="password_log" placeholder="Passowrd">
+	    		</div>
+				</div>
+				<div class="form-group">
+	    		<div class="col-sm-3">
+	    			{%if habit_id%}
+						<input type="hidden" class="form-control" value = "{{habit_id}}" name="habit_id" id="habit_id">
+						{% endif %}
+	    		</div>
+				</div>
+				<div class="form-group">
+	    		<div class="col-sm-offset-2 col-sm-1">
+	    			<input class="form-control" type="submit" value="Submit" name="submit">
+	    		</div>
+	  		</div>
+		</form>
+	</div>
+
+
+
 						<!-- facebook signup -->
 			<script>
 	  			function statusChangeCallback(response) {
@@ -59,7 +92,7 @@
 	    			console.log(response);
 
 	    			if (response.status === 'connected') {
-	    				testAPI(); 
+	    				testAPI();
 	    			} else if (response.status === 'not_authorized') {
 	    				document.getElementById('status').innerHTML = 'Please log ' + 'into this app.';
 	    			} else {
@@ -77,8 +110,8 @@
 		  			FB.init({
 		   				appId      : '',
 		    			cookie     : true,
-		    			xfbml      : true,  
-		   				version    : 'v2.2' 
+		    			xfbml      : true,
+		   				version    : 'v2.2'
 		 			});
 
 		 			FB.getLoginStatus(function(response) {
@@ -104,7 +137,7 @@
 	      				console.log(response);
 
 	      				window.location = "/facebook_success/"+response.first_name+"/"+response.last_name+"/"+response.email;
-	 
+
     				});
   				}
 		</script>
@@ -122,11 +155,10 @@
 			 -->
 			<!-- <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true" onlogin="checkLoginState();"></div> -->
 			<fb:login-button scope="public_profile,email" data-size="large" onlogin="checkLoginState();"></fb:login-button>
-		</div>
 
-		<footer>
-			<p> &copy;RabbitBreakesTeam <a href="#">Help</a> <a href="#">Contact</a></p>
-		</footer>
+	<div class="panel panel-default">
+		<div class="panel-footer">&copy; HabitBreakerTeam <a href="#">Help</a> <a href="#">Contact</a></div>
 	</div>
+
 </body>
 </html>
